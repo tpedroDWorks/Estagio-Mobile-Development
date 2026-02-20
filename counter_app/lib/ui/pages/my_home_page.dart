@@ -1,5 +1,6 @@
 import 'dart:collection';
 
+import 'package:counter_app/ui/pages/settings_page.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/services/storage_service.dart';
@@ -106,7 +107,17 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text('Hey $_username!'),
-        leading: Icon(Icons.home, color: Colors.black45, size: 26),
+        leading: IconButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute<void>(
+                builder: (context) => const SettingsPage(),
+              ),
+            );
+          },
+          icon: Icon(Icons.settings),
+        ),
         actions: [
           IconButton(
             onPressed: _resetCounter,
@@ -155,11 +166,13 @@ class _MyHomePageState extends State<MyHomePage> {
         spacing: 15,
         children: [
           FloatingActionButton(
+            heroTag: "decreaseButton",
             onPressed: _decreaseCounter,
             tooltip: 'Decrease',
             child: const Icon(Icons.remove),
           ),
           FloatingActionButton(
+            heroTag: "increaseButton",
             onPressed: _incrementCounter,
             tooltip: 'Increment',
             child: const Icon(Icons.add),
