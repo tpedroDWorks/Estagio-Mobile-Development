@@ -1,17 +1,22 @@
-import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
+part of 'my_home_bloc.dart';
 
-@immutable
-abstract class MyHomeEvent extends Equatable {
+abstract class MyHomeEvent {
   const MyHomeEvent();
 }
 
 class LoadMyHomeEvent extends MyHomeEvent {
-  final String username;
-  final int counter;
-
-  const LoadMyHomeEvent(this.username, this.counter);
+  const LoadMyHomeEvent();
 
   @override
-  List<Object> get props => [username, counter];
+  List<Object> get props => [];
 }
+
+class IncrementCounterMyHomeEvent extends MyHomeEvent {}
+
+class DecrementCounterMyHomeEvent extends MyHomeEvent {}
+
+class ResetCounterMyHomeEvent extends MyHomeEvent {}
+
+class DisplayCounterMyHomeEvent extends MyHomeEvent {}
+
+class LoadUsernameMyHomeEvent extends MyHomeEvent {}

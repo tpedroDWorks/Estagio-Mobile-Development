@@ -1,16 +1,7 @@
-import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
+part of 'settings_bloc.dart';
 
-@immutable
-abstract class SettingsEvent extends Equatable {
-  const SettingsEvent();
-}
+abstract class SettingsEvent {}
 
-class LoadSettingsEvent extends SettingsEvent {
-  final String username;
+class SaveUsernameSettingsEvent extends SettingsEvent {}
 
-  const LoadSettingsEvent(this.username);
-
-  @override
-  List<Object?> get props => [username];
-}
+class ClearAllDataSettingsEvent extends SettingsEvent {}
