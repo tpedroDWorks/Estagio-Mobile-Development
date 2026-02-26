@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../core/services/storage_service.dart';
+import '../../../core/services/storage_service.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});

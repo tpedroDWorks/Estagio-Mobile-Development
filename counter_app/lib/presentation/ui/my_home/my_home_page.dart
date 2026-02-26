@@ -1,9 +1,9 @@
 import 'dart:collection';
 
-import 'package:counter_app/ui/pages/settings_page.dart';
 import 'package:flutter/material.dart';
 
-import '../../core/services/storage_service.dart';
+import '../../../core/services/storage_service.dart';
+import '../settings/settings_page.dart';
 import '../widgets/contador_widget.dart';
 import '../widgets/reset_dialogue.dart';
 
