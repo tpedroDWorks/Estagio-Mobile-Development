@@ -1,32 +1,32 @@
 import 'package:equatable/equatable.dart';
 
-enum LoginStatus { initial, error, loading, loaded, goToHome }
+enum MyHomeStatus { initial, error, loading, loaded, goToHome }
 
-extension LoginStausX on LoginStatus {
-  bool get isInitial => this == LoginStatus.initial;
+extension LoginStausX on MyHomeStatus {
+  bool get isInitial => this == MyHomeStatus.initial;
 
-  bool get isError => this == LoginStatus.error;
+  bool get isError => this == MyHomeStatus.error;
 
-  bool get isLoading => this == LoginStatus.loading;
+  bool get isLoading => this == MyHomeStatus.loading;
 
-  bool get isLoaded => this == LoginStatus.loaded;
+  bool get isLoaded => this == MyHomeStatus.loaded;
 
-  bool get isGoToHome => this == LoginStatus.goToHome;
+  bool get isGoToHome => this == MyHomeStatus.goToHome;
 }
 
-class LoginState extends Equatable {
-  const LoginState({
-    this.status = LoginStatus.initial,
+class MyHomeState extends Equatable {
+  const MyHomeState({
+    this.status = MyHomeStatus.initial,
     this.username = '',
     this.counter = 0,
   });
 
-  final LoginStatus status;
+  final MyHomeStatus status;
   final String username;
   final int counter;
 
-  LoginState copyWith({LoginStatus? status, String? username, int? counter}) {
-    var result = LoginState(
+  MyHomeState copyWith({MyHomeStatus? status, String? username, int? counter}) {
+    var result = MyHomeState(
       status: status ?? this.status,
       username: username ?? this.username,
       counter: counter ?? this.counter,
