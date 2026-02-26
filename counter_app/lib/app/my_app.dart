@@ -1,4 +1,4 @@
-import 'package:counter_app/presentation/ui/my_home/my_home_layout.dart';
+import 'package:counter_app/presentation/ui/my_home/my_home_page.dart';
 import 'package:flutter/material.dart';
 
 class MyApp extends StatelessWidget {
@@ -9,7 +9,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.indigo)),
-      home: const MyHomeLayout(title: 'Home Page'),
+      home: const MyHomePage(),
     );
   }
 }

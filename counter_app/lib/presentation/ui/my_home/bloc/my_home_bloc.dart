@@ -5,20 +5,38 @@ part 'my_home_event.dart';
 part 'my_home_state.dart';
 
 class MyHomeBloc extends Bloc<MyHomeEvent, MyHomeState> {
-  MyHomeBloc(StorageService storage) : super(MyHomeState(0, '')) {
-    on<IncrementCounterMyHomeEvent>((event, emit) {
-      emit(MyHomeState(state.counter + 1, state.username));
+  final StorageService _storage;
+
+  MyHomeBloc(this._storage) : super(MyHomeState(0, '')) {
+    on<LoadMyHomeEvent>((event, emit) async {
+      final counter = await _storage.getCounter();
+      final name = await _storage.getUsername();
+      emit(MyHomeState(counter, name));
     });
-    on<DecrementCounterMyHomeEvent>((event, emit) {
-      emit(MyHomeState(state.counter - 1, state.username));
+
+    on<IncrementCounterMyHomeEvent>((event, emit) async {
+      final newValue = state.counter + 1;
+      await _storage.saveCounter(newValue);
+      emit(MyHomeState(newValue, state.username));
     });
-    on<ResetCounterMyHomeEvent>((event, emit) {
+
+    on<DecrementCounterMyHomeEvent>((event, emit) async {
+      final newValue = state.counter - 1;
+      await _storage.saveCounter(newValue);
+      emit(MyHomeState(newValue, state.username));
+    });
+
+    on<ResetCounterMyHomeEvent>((event, emit) async {
+      await _storage.saveCounter(0);
       emit(MyHomeState(0, state.username));
     });
-    on<DisplayCounterMyHomeEvent>((event, emit) {
-      emit(MyHomeState(state.counter, state.username));
+
+    on<LoadUsernameMyHomeEvent>((event, emit) async {
+      final name = await _storage.getUsername();
+      emit(MyHomeState(state.counter, name));
     });
-    on<LoadUsernameMyHomeEvent>((event, emit) {
+
+    on<DisplayCounterMyHomeEvent>((event, emit) {
       emit(MyHomeState(state.counter, state.username));
     });
   }

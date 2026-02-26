@@ -12,7 +12,7 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   final _textController = TextEditingController();
   final StorageService _storage = StorageService();
-  String _username = '';
+  final String _username = '';
 
   void _loadCurrentName() async {
     String name = await _storage.getUsername();
