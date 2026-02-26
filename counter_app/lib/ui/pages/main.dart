@@ -5,6 +5,6 @@ import '../widgets/my_app.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // para usar SharedPreferences
-  await StorageService;
+  StorageService;
   runApp(const MyApp());
 }

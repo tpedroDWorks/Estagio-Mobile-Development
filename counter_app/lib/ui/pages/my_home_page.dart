@@ -18,14 +18,15 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final StorageService _storage = StorageService();
-  Queue<String> _operacoes = Queue();
+  final Queue<String> _operacoes = Queue();
   int _counter = 0;
-  String _username = 'User';
+  String _username = '';
 
   @override
   void initState() {
     super.initState();
     _loadInitialCounter();
+    loadUsername();
   }
 
   void addQ(String value) {
@@ -37,14 +38,14 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  Future<void> _loadUsername() async {
+  Future<void> loadUsername() async {
     String savedUsername = await _storage.getUsername();
     setState(() {
       _username = savedUsername;
     });
   }
 
-  void _updateUsername(String newUsername) async {
+  void updateUsername(String newUsername) async {
     setState(() {
       _username = newUsername;
     });
@@ -93,6 +94,14 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  Text switchTitle() {
+    if (_username == '') {
+      return Text('Counter App');
+    } else {
+      return Text('Hey $_username!');
+    }
+  }
+
   void showSnackBar() {
     SnackBar snackBar = SnackBar(content: Text('Alvo atingido!'));
     if (_counter % 10 == 0) {
@@ -106,15 +115,16 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text('Hey $_username!'),
+        title: switchTitle(),
         leading: IconButton(
-          onPressed: () {
-            Navigator.push(
+          onPressed: () async {
+            await Navigator.push(
               context,
               MaterialPageRoute<void>(
                 builder: (context) => const SettingsPage(),
               ),
             );
+            loadUsername();
           },
           icon: Icon(Icons.settings),
         ),
@@ -134,7 +144,7 @@ class _MyHomePageState extends State<MyHomePage> {
               onDoubleTap: () {
                 _incrementCounter();
               },
-              child: Container(
+              child: SizedBox(
                 width: 500,
                 height: 741,
                 child: Column(
@@ -148,7 +158,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         itemBuilder: (BuildContext context, int index) {
                           final operacao = _operacoes.elementAt(index);
                           return ListTile(
-                            title: Center(child: Text('$operacao')),
+                            title: Center(child: Text(operacao)),
                             dense: true,
                           );
                         },
