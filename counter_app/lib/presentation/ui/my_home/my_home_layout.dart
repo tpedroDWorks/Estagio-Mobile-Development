@@ -1,13 +1,10 @@
 import 'package:counter_app/presentation/ui/my_home/bloc/my_home_bloc.dart';
-import 'package:counter_app/presentation/ui/settings/settings_page.dart';
 import 'package:counter_app/presentation/ui/widgets/contador_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MyHomeLayout extends StatelessWidget {
-  const MyHomeLayout({super.key, required this.title});
-
-  final String title;
+  const MyHomeLayout({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,14 +21,19 @@ class MyHomeLayout extends StatelessWidget {
         ),
         leading: IconButton(
           onPressed: () async {
-            await Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const SettingsPage()),
-            );
+            await Navigator.pushNamed(context, '/settings');
             homeBloc.add(LoadUsernameMyHomeEvent());
           },
           icon: const Icon(Icons.settings),
         ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              homeBloc.add(ResetCounterMyHomeEvent());
+            },
+            icon: Icon(Icons.restart_alt),
+          ),
+        ],
       ),
       body: BlocListener<MyHomeBloc, MyHomeState>(
         listener: (context, state) {

@@ -12,7 +12,7 @@ class MyHomePage extends StatelessWidget {
     return BlocProvider(
       create: (context) =>
           GetIt.instance<MyHomeBloc>()..add(const LoadMyHomeEvent()),
-      child: const MyHomeLayout(title: 'Counter App'),
+      child: const MyHomeLayout(),
     );
   }
 }
