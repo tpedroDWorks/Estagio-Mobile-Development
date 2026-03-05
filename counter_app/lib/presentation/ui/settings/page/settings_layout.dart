@@ -15,9 +15,7 @@ class _SettingsLayoutState extends State<SettingsLayout> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<SettingsBloc, SettingsState>(
-      listener: (context, state) {
-        _textController.text = state.username;
-      },
+      listener: (context, state) {},
       child: Scaffold(
         appBar: AppBar(title: const Text('Settings')),
         body: Padding(

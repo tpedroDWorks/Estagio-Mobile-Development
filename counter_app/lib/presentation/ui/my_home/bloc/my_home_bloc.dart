@@ -1,6 +1,5 @@
-import 'dart:collection';
-
 import 'package:counter_app/core/services/storage_service.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'my_home_event.dart';
@@ -9,52 +8,112 @@ part 'my_home_state.dart';
 class MyHomeBloc extends Bloc<MyHomeEvent, MyHomeState> {
   final StorageService _storage;
 
-  MyHomeBloc(this._storage) : super(MyHomeState(0, '', Queue<String>())) {
-    Queue<String> _getNextQueue(String action) {
-      final newQueue = Queue<String>.from(state.operacoes);
+  List<String> getNextQueue(String action) {
+    final newList = List<String>.from(state.operacoes);
 
-      if (action.isNotEmpty) {
-        newQueue.addFirst(action);
-        if (newQueue.length > 5) newQueue.removeLast();
-      }
-      return newQueue;
+    if (action.isNotEmpty) {
+      newList.add(action);
+      if (newList.length > 5) newList.removeLast();
     }
+    return newList;
+  }
 
-    on<LoadMyHomeEvent>((event, emit) async {
-      final counter = await _storage.getCounter();
-      final name = await _storage.getUsername();
-      emit(MyHomeState(counter, name, state.operacoes));
-    });
-    on<IncrementCounterMyHomeEvent>((event, emit) async {
-      final newValue = state.counter + 1;
+  MyHomeBloc(this._storage)
+    : super(MyHomeState(counter: 0, username: '', operacoes: [])) {
+    on<LoadMyHomeEvent>(_loadMyHome);
+    on<DisplayCounterMyHomeEvent>(_displayCounter);
+    on<IncrementCounterMyHomeEvent>(_incrementCounter);
+    on<DecrementCounterMyHomeEvent>(_decreaseCounter);
+    on<ResetCounterMyHomeEvent>(_resetCounter);
+    on<LoadUsernameMyHomeEvent>(_loadUsername);
+  }
+
+  Future<void> _loadMyHome(MyHomeEvent event, Emitter<MyHomeState> emit) async {
+    final counter = await _storage.getCounter();
+    final name = await _storage.getUsername();
+    emit(
+      MyHomeState(counter: counter, username: name, operacoes: state.operacoes),
+    );
+  }
+
+  Future<void> _incrementCounter(
+    MyHomeEvent event,
+    Emitter<MyHomeState> emit,
+  ) async {
+    final newValue = state.counter + 1;
+    await _storage.saveCounter(newValue);
+    emit(
+      MyHomeState(
+        counter: newValue,
+        username: state.username,
+        operacoes: getNextQueue('increment'),
+      ),
+    );
+  }
+
+  Future<void> _decreaseCounter(
+    MyHomeEvent event,
+    Emitter<MyHomeState> emit,
+  ) async {
+    if (state.counter > 0) {
+      final newValue = state.counter - 1;
       await _storage.saveCounter(newValue);
-      emit(MyHomeState(newValue, state.username, _getNextQueue('increment')));
-    });
+      emit(
+        MyHomeState(
+          counter: newValue,
+          username: state.username,
+          operacoes: getNextQueue('decrease'),
+        ),
+      );
+    } else {
+      emit(
+        MyHomeState(
+          counter: state.counter,
+          username: state.username,
+          operacoes: getNextQueue('decrease'),
+        ),
+      );
+    }
+  }
 
-    on<DecrementCounterMyHomeEvent>((event, emit) async {
-      if (state.counter > 0) {
-        final newValue = state.counter - 1;
-        await _storage.saveCounter(newValue);
-        emit(MyHomeState(newValue, state.username, _getNextQueue('decrease')));
-      } else {
-        emit(
-          MyHomeState(state.counter, state.username, _getNextQueue('decrease')),
-        );
-      }
-    });
+  Future<void> _resetCounter(
+    MyHomeEvent event,
+    Emitter<MyHomeState> emit,
+  ) async {
+    await _storage.saveCounter(0);
+    emit(
+      MyHomeState(
+        counter: 0,
+        username: state.username,
+        operacoes: getNextQueue('reset'),
+      ),
+    );
+  }
 
-    on<ResetCounterMyHomeEvent>((event, emit) async {
-      await _storage.saveCounter(0);
-      emit(MyHomeState(0, state.username, _getNextQueue('reset')));
-    });
+  Future<void> _loadUsername(
+    MyHomeEvent event,
+    Emitter<MyHomeState> emit,
+  ) async {
+    final name = await _storage.getUsername();
+    emit(
+      MyHomeState(
+        counter: state.counter,
+        username: name,
+        operacoes: state.operacoes,
+      ),
+    );
+  }
 
-    on<LoadUsernameMyHomeEvent>((event, emit) async {
-      final name = await _storage.getUsername();
-      emit(MyHomeState(state.counter, name, state.operacoes));
-    });
-
-    on<DisplayCounterMyHomeEvent>((event, emit) {
-      emit(MyHomeState(state.counter, state.username, state.operacoes));
-    });
+  Future<void> _displayCounter(
+    MyHomeEvent event,
+    Emitter<MyHomeState> emit,
+  ) async {
+    emit(
+      MyHomeState(
+        counter: state.counter,
+        username: state.username,
+        operacoes: state.operacoes,
+      ),
+    );
   }
 }

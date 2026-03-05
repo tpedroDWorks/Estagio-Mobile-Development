@@ -1,6 +1,6 @@
 part of 'my_home_bloc.dart';
 
-abstract class MyHomeEvent {
+abstract class MyHomeEvent extends Equatable {
   const MyHomeEvent();
 }
 
@@ -11,12 +11,27 @@ class LoadMyHomeEvent extends MyHomeEvent {
   List<Object> get props => [];
 }
 
-class IncrementCounterMyHomeEvent extends MyHomeEvent {}
+class IncrementCounterMyHomeEvent extends MyHomeEvent {
+  @override
+  List<Object?> get props => [];
+}
 
-class DecrementCounterMyHomeEvent extends MyHomeEvent {}
+class DecrementCounterMyHomeEvent extends MyHomeEvent {
+  @override
+  List<Object?> get props => [];
+}
 
-class ResetCounterMyHomeEvent extends MyHomeEvent {}
+class ResetCounterMyHomeEvent extends MyHomeEvent {
+  @override
+  List<Object?> get props => [];
+}
 
-class DisplayCounterMyHomeEvent extends MyHomeEvent {}
+class DisplayCounterMyHomeEvent extends MyHomeEvent {
+  @override
+  List<Object?> get props => [];
+}
 
-class LoadUsernameMyHomeEvent extends MyHomeEvent {}
+class LoadUsernameMyHomeEvent extends MyHomeEvent {
+  @override
+  List<Object?> get props => [];
+}

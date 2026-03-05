@@ -1,5 +1,4 @@
-import 'package:counter_app/presentation/ui/my_home/my_home_page.dart';
-import 'package:counter_app/presentation/ui/settings/settings_page.dart';
+import 'package:counter_app/presentation/routes/routes.dart';
 import 'package:flutter/material.dart';
 
 class MyApp extends StatelessWidget {
@@ -10,12 +9,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.indigo)),
-      home: const MyHomePage(),
-      initialRoute: '/myHome',
-      routes: {
-        '/myHome': (context) => const MyHomePage(),
-        '/settings': (context) => const SettingsPage(),
-      },
+      initialRoute: Routes.initial,
+      routes: Routes.routes,
     );
   }
 }

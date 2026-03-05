@@ -1,3 +1,4 @@
+import 'package:counter_app/presentation/routes/routes.dart';
 import 'package:counter_app/presentation/ui/my_home/bloc/my_home_bloc.dart';
 import 'package:counter_app/presentation/ui/widgets/contador_widget.dart';
 import 'package:counter_app/presentation/ui/widgets/reset_dialogue.dart';
@@ -22,8 +23,6 @@ class MyHomeLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final homeBloc = context.read<MyHomeBloc>();
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -35,8 +34,8 @@ class MyHomeLayout extends StatelessWidget {
         ),
         leading: IconButton(
           onPressed: () async {
-            await Navigator.pushNamed(context, '/settings');
-            homeBloc.add(LoadUsernameMyHomeEvent());
+            await Navigator.pushNamed(context, Routes.settings);
+            context.read<MyHomeBloc>().add(LoadUsernameMyHomeEvent());
           },
           icon: const Icon(Icons.settings),
         ),
@@ -60,7 +59,8 @@ class MyHomeLayout extends StatelessWidget {
         },
         child: GestureDetector(
           behavior: HitTestBehavior.opaque,
-          onDoubleTap: () => homeBloc.add(IncrementCounterMyHomeEvent()),
+          onDoubleTap: () =>
+              context.read<MyHomeBloc>().add(IncrementCounterMyHomeEvent()),
           child: Container(
             width: double.infinity,
             height: double.infinity,
@@ -131,7 +131,7 @@ class MyHomeLayout extends StatelessWidget {
           FloatingActionButton(
             heroTag: "dec",
             onPressed: () {
-              homeBloc.add(DecrementCounterMyHomeEvent());
+              context.read<MyHomeBloc>().add(DecrementCounterMyHomeEvent());
             },
             child: const Icon(Icons.remove),
           ),
@@ -139,7 +139,7 @@ class MyHomeLayout extends StatelessWidget {
           FloatingActionButton(
             heroTag: "inc",
             onPressed: () {
-              homeBloc.add(IncrementCounterMyHomeEvent());
+              context.read<MyHomeBloc>().add(IncrementCounterMyHomeEvent());
             },
             child: const Icon(Icons.add),
           ),

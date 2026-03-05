@@ -1,13 +1,27 @@
 part of 'settings_bloc.dart';
 
-abstract class SettingsEvent {}
+abstract class SettingsEvent extends Equatable {
+  const SettingsEvent();
 
-class LoadSettingsEvent extends SettingsEvent {}
-
-class SaveUsernameSettingsEvent extends SettingsEvent {
-  final String username;
-
-  SaveUsernameSettingsEvent(this.username);
+  @override
+  List<Object?> get props => [];
 }
 
-class ClearAllDataSettingsEvent extends SettingsEvent {}
+class LoadSettingsEvent extends SettingsEvent {
+  @override
+  List<Object?> get props => [];
+}
+
+class SaveUsernameSettingsEvent extends SettingsEvent {
+  final String newUsername;
+
+  const SaveUsernameSettingsEvent(this.newUsername);
+
+  @override
+  List<Object?> get props => [newUsername];
+}
+
+class ClearAllDataSettingsEvent extends SettingsEvent {
+  @override
+  List<Object?> get props => [];
+}
