@@ -8,7 +8,7 @@ part 'settings_state.dart';
 class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   final StorageService _storage;
 
-  SettingsBloc(this._storage) : super(SettingsState(username: '')) {
+  SettingsBloc(this._storage) : super(SettingsState()) {
     on<LoadSettingsEvent>(_loadSettings);
     on<SaveUsernameSettingsEvent>(_saveUsername);
     on<ClearAllDataSettingsEvent>((_clearAllData));
@@ -19,7 +19,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     Emitter<SettingsState> emit,
   ) async {
     final name = await _storage.getUsername();
-    emit(SettingsState(username: name));
+    emit(state.copyWith(username: name));
   }
 
   Future<void> _saveUsername(
@@ -27,7 +27,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     Emitter<SettingsState> emit,
   ) async {
     await _storage.saveName(event.newUsername);
-    emit(SettingsState(username: event.newUsername));
+    emit(state.copyWith(username: event.newUsername));
   }
 
   Future<void> _clearAllData(
@@ -35,6 +35,6 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     Emitter<SettingsState> emit,
   ) async {
     await _storage.clearAll();
-    emit(SettingsState(username: ''));
+    emit(state.copyWith());
   }
 }

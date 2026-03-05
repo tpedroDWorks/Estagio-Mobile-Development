@@ -26,11 +26,6 @@ class ResetCounterMyHomeEvent extends MyHomeEvent {
   List<Object?> get props => [];
 }
 
-class DisplayCounterMyHomeEvent extends MyHomeEvent {
-  @override
-  List<Object?> get props => [];
-}
-
 class LoadUsernameMyHomeEvent extends MyHomeEvent {
   @override
   List<Object?> get props => [];

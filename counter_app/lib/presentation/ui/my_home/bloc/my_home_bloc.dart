@@ -8,20 +8,9 @@ part 'my_home_state.dart';
 class MyHomeBloc extends Bloc<MyHomeEvent, MyHomeState> {
   final StorageService _storage;
 
-  List<String> getNextQueue(String action) {
-    final newList = List<String>.from(state.operacoes);
-
-    if (action.isNotEmpty) {
-      newList.add(action);
-      if (newList.length > 5) newList.removeLast();
-    }
-    return newList;
-  }
-
   MyHomeBloc(this._storage)
     : super(MyHomeState(counter: 0, username: '', operacoes: [])) {
     on<LoadMyHomeEvent>(_loadMyHome);
-    on<DisplayCounterMyHomeEvent>(_displayCounter);
     on<IncrementCounterMyHomeEvent>(_incrementCounter);
     on<DecrementCounterMyHomeEvent>(_decreaseCounter);
     on<ResetCounterMyHomeEvent>(_resetCounter);
@@ -29,11 +18,7 @@ class MyHomeBloc extends Bloc<MyHomeEvent, MyHomeState> {
   }
 
   Future<void> _loadMyHome(MyHomeEvent event, Emitter<MyHomeState> emit) async {
-    final counter = await _storage.getCounter();
-    final name = await _storage.getUsername();
-    emit(
-      MyHomeState(counter: counter, username: name, operacoes: state.operacoes),
-    );
+    emit(state.copyWith(operacoes: state.operacoes));
   }
 
   Future<void> _incrementCounter(
@@ -43,11 +28,7 @@ class MyHomeBloc extends Bloc<MyHomeEvent, MyHomeState> {
     final newValue = state.counter + 1;
     await _storage.saveCounter(newValue);
     emit(
-      MyHomeState(
-        counter: newValue,
-        username: state.username,
-        operacoes: getNextQueue('increment'),
-      ),
+      state.copyWith(counter: newValue, operacoes: _getNextQueue('increase')),
     );
   }
 
@@ -59,20 +40,10 @@ class MyHomeBloc extends Bloc<MyHomeEvent, MyHomeState> {
       final newValue = state.counter - 1;
       await _storage.saveCounter(newValue);
       emit(
-        MyHomeState(
-          counter: newValue,
-          username: state.username,
-          operacoes: getNextQueue('decrease'),
-        ),
+        state.copyWith(counter: newValue, operacoes: _getNextQueue('decrease')),
       );
     } else {
-      emit(
-        MyHomeState(
-          counter: state.counter,
-          username: state.username,
-          operacoes: getNextQueue('decrease'),
-        ),
-      );
+      emit(state.copyWith(operacoes: _getNextQueue('decrease')));
     }
   }
 
@@ -81,13 +52,7 @@ class MyHomeBloc extends Bloc<MyHomeEvent, MyHomeState> {
     Emitter<MyHomeState> emit,
   ) async {
     await _storage.saveCounter(0);
-    emit(
-      MyHomeState(
-        counter: 0,
-        username: state.username,
-        operacoes: getNextQueue('reset'),
-      ),
-    );
+    emit(state.copyWith(counter: 0, operacoes: _getNextQueue('reset')));
   }
 
   Future<void> _loadUsername(
@@ -95,25 +60,16 @@ class MyHomeBloc extends Bloc<MyHomeEvent, MyHomeState> {
     Emitter<MyHomeState> emit,
   ) async {
     final name = await _storage.getUsername();
-    emit(
-      MyHomeState(
-        counter: state.counter,
-        username: name,
-        operacoes: state.operacoes,
-      ),
-    );
+    emit(state.copyWith(username: name));
   }
 
-  Future<void> _displayCounter(
-    MyHomeEvent event,
-    Emitter<MyHomeState> emit,
-  ) async {
-    emit(
-      MyHomeState(
-        counter: state.counter,
-        username: state.username,
-        operacoes: state.operacoes,
-      ),
-    );
+  List<String> _getNextQueue(String action) {
+    final newList = List<String>.from(state.operacoes);
+
+    if (action.isNotEmpty) {
+      newList.insert(0, action);
+      if (newList.length > 5) newList.removeLast();
+    }
+    return newList;
   }
 }

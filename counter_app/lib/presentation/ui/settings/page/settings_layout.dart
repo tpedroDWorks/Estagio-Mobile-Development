@@ -40,6 +40,7 @@ class _SettingsLayoutState extends State<SettingsLayout> {
               ElevatedButton(
                 onPressed: () {
                   context.read<SettingsBloc>().add(ClearAllDataSettingsEvent());
+                  _textController.dispose();
                 },
                 child: const Text('Limpar dados'),
               ),
