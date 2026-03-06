@@ -4,6 +4,7 @@ import 'package:counter_app/presentation/ui/widgets/contador_widget.dart';
 import 'package:counter_app/presentation/ui/widgets/reset_dialogue.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class MyHomeLayout extends StatelessWidget {
   const MyHomeLayout({super.key});
@@ -34,7 +35,7 @@ class MyHomeLayout extends StatelessWidget {
         ),
         leading: IconButton(
           onPressed: () async {
-            await Navigator.pushNamed(context, Routes.settings);
+            await GoRouter.of(context).pushNamed(Routes.settings);
             context.read<MyHomeBloc>().add(LoadUsernameMyHomeEvent());
           },
           icon: const Icon(Icons.settings),

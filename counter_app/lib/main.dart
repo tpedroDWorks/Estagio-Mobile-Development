@@ -1,7 +1,7 @@
-import 'package:counter_app/app/my_app.dart';
+import 'package:counter_app/core/app/my_app.dart';
 import 'package:flutter/cupertino.dart';
 
-import '/di/app_di.dart';
+import 'core/di/app_di.dart';
 
 void main() {
   initInjector();

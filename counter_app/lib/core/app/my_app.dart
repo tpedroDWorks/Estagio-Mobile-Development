@@ -6,11 +6,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'Flutter Demo',
       theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.indigo)),
-      initialRoute: Routes.initial,
-      routes: Routes.routes,
+      routerConfig: Routes.router,
     );
   }
 }

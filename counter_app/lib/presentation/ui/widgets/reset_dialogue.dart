@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class ResetDialogue extends StatelessWidget {
   final VoidCallback onConfirm;
@@ -14,14 +15,14 @@ class ResetDialogue extends StatelessWidget {
         TextButton(
           child: const Text('Não'),
           onPressed: () {
-            Navigator.of(context).pop(); // Fechar janela
+            context.pop(); // Fechar janela
           },
         ),
         TextButton(
           child: const Text('Sim'),
           onPressed: () {
             onConfirm();
-            Navigator.of(context).pop();
+            context.pop();
           },
         ),
       ],
