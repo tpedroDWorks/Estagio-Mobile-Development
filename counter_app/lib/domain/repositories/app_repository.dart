@@ -6,9 +6,9 @@ abstract class AppRepository {
 
   Future<Either<AppError, void>> saveName(String name);
 
-  Future<Either<AppError, void>> getCounter();
+  Future<Either<AppError, int>> getCounter();
 
-  Future<Either<AppError, void>> getUsername();
+  Future<Either<AppError, String>> getUsername();
 
   Future<Either<AppError, void>> clearAll();
 }

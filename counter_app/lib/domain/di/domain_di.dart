@@ -7,8 +7,6 @@ import 'package:counter_app/domain/use_cases/save_name_use_case.dart';
 import 'package:get_it/get_it.dart';
 
 void setUpDomainDi(GetIt injector) {
-  final int _value = 0;
-  final String _name = '';
   injector.registerFactory<ClearAllUseCase>(
     () => ClearAllUseCase(injector<AppRepository>()),
   );
@@ -19,9 +17,9 @@ void setUpDomainDi(GetIt injector) {
     () => GetUsernameUseCase(injector<AppRepository>()),
   );
   injector.registerFactory<SaveCounterUseCase>(
-    () => SaveCounterUseCase(injector<AppRepository>(), _value),
+    () => SaveCounterUseCase(injector<AppRepository>()),
   );
   injector.registerFactory<SaveNameUseCase>(
-    () => SaveNameUseCase(injector<AppRepository>(), _name),
+    () => SaveNameUseCase(injector<AppRepository>()),
   );
 }

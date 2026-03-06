@@ -1,5 +1,7 @@
 class AppError {
-  final String errorMsg = 'default_error';
+  final String errorMsg;
+  const AppError([this.errorMsg = 'default_error']);
+
   static const unknown = Unknown();
 }
 
