@@ -1,3 +1,4 @@
+import 'package:counter_app/core/extensions/either_extensions.dart';
 import 'package:counter_app/data/datasources/local_app_datasource.dart';
 import 'package:counter_app/domain/errors/app_error.dart';
 import 'package:counter_app/domain/repositories/app_repository.dart';
@@ -12,9 +13,9 @@ class AppRepositoryImpl implements AppRepository {
   Future<Either<AppError, void>> clearAll() async {
     try {
       await _appDatasource.clearAll();
-      return const Right(null);
+      return null.toRight();
     } catch (e) {
-      return Left(AppError(e.toString()));
+      return AppError.unknown.toLeft();
     }
   }
 
@@ -22,9 +23,9 @@ class AppRepositoryImpl implements AppRepository {
   Future<Either<AppError, int>> getCounter() async {
     try {
       final result = await _appDatasource.getCounter();
-      return Right(result);
+      return result.toRight();
     } catch (e) {
-      return Left(AppError(e.toString()));
+      return AppError.unknown.toLeft();
     }
   }
 
@@ -32,9 +33,9 @@ class AppRepositoryImpl implements AppRepository {
   Future<Either<AppError, String>> getUsername() async {
     try {
       final result = await _appDatasource.getUsername();
-      return Right(result);
+      return result.toRight();
     } catch (e) {
-      return Left(AppError(e.toString()));
+      return AppError.unknown.toLeft();
     }
   }
 
@@ -42,9 +43,9 @@ class AppRepositoryImpl implements AppRepository {
   Future<Either<AppError, void>> saveCounter(int value) async {
     try {
       await _appDatasource.saveCounter(value);
-      return const Right(null);
+      return null.toRight();
     } catch (e) {
-      return Left(AppError(e.toString()));
+      return AppError.unknown.toLeft();
     }
   }
 
@@ -52,9 +53,9 @@ class AppRepositoryImpl implements AppRepository {
   Future<Either<AppError, void>> saveName(String name) async {
     try {
       await _appDatasource.saveName(name);
-      return const Right(null);
+      return null.toRight();
     } catch (e) {
-      return Left(AppError(e.toString()));
+      return AppError.unknown.toLeft();
     }
   }
 }
