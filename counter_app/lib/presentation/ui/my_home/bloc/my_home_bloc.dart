@@ -1,4 +1,4 @@
-import 'package:counter_app/core/services/storage_service.dart';
+import 'package:counter_app/data/repositories/app_repository_impl.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -6,9 +6,9 @@ part 'my_home_event.dart';
 part 'my_home_state.dart';
 
 class MyHomeBloc extends Bloc<MyHomeEvent, MyHomeState> {
-  final StorageService _storage;
+  final AppRepositoryImpl _repositoryImpl;
 
-  MyHomeBloc(this._storage)
+  MyHomeBloc(this._repositoryImpl)
     : super(MyHomeState(counter: 0, username: '', operacoes: [])) {
     on<LoadMyHomeEvent>(_loadMyHome);
     on<IncrementCounterMyHomeEvent>(_incrementCounter);
@@ -26,7 +26,7 @@ class MyHomeBloc extends Bloc<MyHomeEvent, MyHomeState> {
     Emitter<MyHomeState> emit,
   ) async {
     final newValue = state.counter + 1;
-    await _storage.saveCounter(newValue);
+    await _repositoryImpl.saveCounter(newValue);
     emit(
       state.copyWith(counter: newValue, operacoes: _getNextQueue('increase')),
     );
@@ -38,7 +38,7 @@ class MyHomeBloc extends Bloc<MyHomeEvent, MyHomeState> {
   ) async {
     if (state.counter > 0) {
       final newValue = state.counter - 1;
-      await _storage.saveCounter(newValue);
+      await _repositoryImpl.saveCounter(newValue);
       emit(
         state.copyWith(counter: newValue, operacoes: _getNextQueue('decrease')),
       );
@@ -51,7 +51,7 @@ class MyHomeBloc extends Bloc<MyHomeEvent, MyHomeState> {
     MyHomeEvent event,
     Emitter<MyHomeState> emit,
   ) async {
-    await _storage.saveCounter(0);
+    await _repositoryImpl.saveCounter(0);
     emit(state.copyWith(counter: 0, operacoes: _getNextQueue('reset')));
   }
 
@@ -59,8 +59,17 @@ class MyHomeBloc extends Bloc<MyHomeEvent, MyHomeState> {
     MyHomeEvent event,
     Emitter<MyHomeState> emit,
   ) async {
-    final name = await _storage.getUsername();
-    emit(state.copyWith(username: name));
+    final result = await _repositoryImpl.getUsername();
+
+    result.fold(
+      (error) {
+        print('error loading username: $error');
+        emit(state.copyWith(username: ''));
+      },
+      (name) {
+        emit(state.copyWith(username: name));
+      },
+    );
   }
 
   List<String> _getNextQueue(String action) {

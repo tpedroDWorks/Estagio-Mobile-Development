@@ -1,4 +1,4 @@
-import 'package:counter_app/core/services/storage_service.dart';
+import 'package:counter_app/data/repositories/app_repository_impl.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -6,9 +6,9 @@ part 'settings_event.dart';
 part 'settings_state.dart';
 
 class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
-  final StorageService _storage;
+  final AppRepositoryImpl _repositoryImpl;
 
-  SettingsBloc(this._storage) : super(SettingsState()) {
+  SettingsBloc(this._repositoryImpl) : super(SettingsState()) {
     on<LoadSettingsEvent>(_loadSettings);
     on<SaveUsernameSettingsEvent>(_saveUsername);
     on<ClearAllDataSettingsEvent>((_clearAllData));
@@ -18,15 +18,24 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     SettingsEvent event,
     Emitter<SettingsState> emit,
   ) async {
-    final name = await _storage.getUsername();
-    emit(state.copyWith(username: name));
+    final result = await _repositoryImpl.getUsername();
+
+    result.fold(
+      (error) {
+        print('error loading username: $error');
+        emit(state.copyWith(username: ''));
+      },
+      (name) {
+        emit(state.copyWith(username: name));
+      },
+    );
   }
 
   Future<void> _saveUsername(
     SaveUsernameSettingsEvent event,
     Emitter<SettingsState> emit,
   ) async {
-    await _storage.saveName(event.newUsername);
+    await _repositoryImpl.saveName(event.newUsername);
     emit(state.copyWith(username: event.newUsername));
   }
 
@@ -34,7 +43,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     SettingsEvent event,
     Emitter<SettingsState> emit,
   ) async {
-    await _storage.clearAll();
+    await _repositoryImpl.clearAll();
     emit(state.copyWith());
   }
 }
