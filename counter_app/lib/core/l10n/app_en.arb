@@ -1,0 +1,26 @@
+{
+  "counterAppTitle": "Counter App",
+  "welcomeMessage": "Hey {name}",
+  "@welcomeMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "settings": "Settings",
+  "usernameLabel": "Username",
+  "saveButton": "Save",
+  "clearDataButton": "Clear data",
+  "resetCounterTitle": "Reset counter",
+  "resetCounterMessage": "Are you sure you want to reset the counter?",
+  "cancel": "Cancel",
+  "confirm": "Confirm",
+  "targetReached": "Target reached!",
+  "pushedButtonMessage": "You have pushed the button this many times:",
+  "lastOperations": "Last 5 operations:",
+  "noOperations": "No operations recorded.",
+  "operationIncrease": "increase",
+  "operationDecrease": "decrease",
+  "operationReset": "reset"
+}

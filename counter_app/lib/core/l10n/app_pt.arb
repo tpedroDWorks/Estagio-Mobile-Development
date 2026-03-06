@@ -1,0 +1,19 @@
+{
+  "counterAppTitle": "Aplicação de Contador",
+  "welcomeMessage": "Olá {name}",
+  "settings": "Definições",
+  "usernameLabel": "Nome de utilizador",
+  "saveButton": "Guardar",
+  "clearDataButton": "Limpar dados",
+  "resetCounterTitle": "Reiniciar contador",
+  "resetCounterMessage": "Tem a certeza que deseja reiniciar o contador?",
+  "cancel": "Cancelar",
+  "confirm": "Confirmar",
+  "targetReached": "Alvo atingido!",
+  "pushedButtonMessage": "Carregou no botão este número de vezes:",
+  "lastOperations": "Últimas 5 operações:",
+  "noOperations": "Sem operações registadas.",
+  "operationIncrease": "aumentar",
+  "operationDecrease": "diminuir",
+  "operationReset": "reiniciar"
+}

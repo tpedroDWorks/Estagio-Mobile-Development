@@ -1,0 +1,19 @@
+{
+  "counterAppTitle": "Aplicación de Contador",
+  "welcomeMessage": "Hola {name}",
+  "settings": "Ajustes",
+  "usernameLabel": "Nombre de usuario",
+  "saveButton": "Guardar",
+  "clearDataButton": "Limpiar datos",
+  "resetCounterTitle": "Restablecer contador",
+  "resetCounterMessage": "¿Estás seguro de que quieres restablecer el contador?",
+  "cancel": "Cancelar",
+  "confirm": "Confirmar",
+  "targetReached": "¡Objetivo alcanzado!",
+  "pushedButtonMessage": "Has pulsado el botón tantas veces:",
+  "lastOperations": "Últimas 5 operaciones:",
+  "noOperations": "No hay operaciones registradas.",
+  "operationIncrease": "aumentar",
+  "operationDecrease": "disminuir",
+  "operationReset": "restablecer"
+}
