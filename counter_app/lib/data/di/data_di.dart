@@ -5,7 +5,7 @@ import 'package:get_it/get_it.dart';
 
 final GetIt injector = GetIt.instance;
 
-void SetUpDataDi() {
+void setUpDataDi() {
   injector.registerLazySingleton<AppRepository>(
     () => AppRepositoryImpl(injector<LocalAppDatasource>()),
   );

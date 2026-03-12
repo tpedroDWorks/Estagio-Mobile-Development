@@ -1,5 +1,6 @@
 import 'package:counter_app/data/repositories/app_repository_impl.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'settings_event.dart';
@@ -22,7 +23,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
 
     result.fold(
       (error) {
-        print('error loading username: $error');
+        debugPrint('error loading username: $error');
         emit(state.copyWith(username: ''));
       },
       (name) {

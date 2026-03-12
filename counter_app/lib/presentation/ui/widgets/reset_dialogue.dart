@@ -1,4 +1,4 @@
-import 'package:counter_app/core/l10n/app_localizations.dart';
+import 'package:counter_app/core/extensions/context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -9,7 +9,7 @@ class ResetDialogue extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = context.localizations;
 
     return AlertDialog(
       title: Text(l10n.resetCounterTitle),

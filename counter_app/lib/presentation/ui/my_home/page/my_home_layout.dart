@@ -1,3 +1,4 @@
+import 'package:counter_app/core/extensions/context_extensions.dart';
 import 'package:counter_app/core/l10n/app_localizations.dart';
 import 'package:counter_app/presentation/routes/routes.dart';
 import 'package:counter_app/presentation/ui/my_home/bloc/my_home_bloc.dart';
@@ -25,7 +26,7 @@ class MyHomeLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = context.localizations;
 
     return Scaffold(
       appBar: AppBar(

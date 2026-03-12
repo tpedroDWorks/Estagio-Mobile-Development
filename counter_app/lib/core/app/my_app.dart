@@ -13,7 +13,6 @@ class MyApp extends StatelessWidget {
       routerConfig: Routes.router,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      locale: const Locale('pt'),
     );
   }
 }

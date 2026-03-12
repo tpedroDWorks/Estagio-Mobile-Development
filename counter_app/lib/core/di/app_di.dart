@@ -11,7 +11,7 @@ LocalAppDatasource _appDatasource = LocalAppDatasource();
 void initInjector() {
   setUpPresentationDi(injector);
   setUpDomainDi(injector);
-  SetUpDataDi();
+  setUpDataDi();
   injector.registerLazySingleton<AppRepositoryImpl>(
     () => AppRepositoryImpl(_appDatasource),
   );

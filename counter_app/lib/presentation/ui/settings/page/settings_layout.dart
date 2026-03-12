@@ -1,4 +1,4 @@
-import 'package:counter_app/core/l10n/app_localizations.dart';
+import 'package:counter_app/core/extensions/context_extensions.dart';
 import 'package:counter_app/presentation/ui/settings/bloc/settings_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,7 +21,7 @@ class _SettingsLayoutState extends State<SettingsLayout> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = context.localizations;
 
     return BlocListener<SettingsBloc, SettingsState>(
       listener: (context, state) {},
