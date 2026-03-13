@@ -1,4 +1,6 @@
+import 'package:counter_app/core/extensions/context_extensions.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class ResetDialogue extends StatelessWidget {
   final VoidCallback onConfirm;
@@ -7,21 +9,23 @@ class ResetDialogue extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.localizations;
+
     return AlertDialog(
-      title: const Text('Confirmação'),
-      content: const Text('Tem a certeza?'),
+      title: Text(l10n.resetCounterTitle),
+      content: Text(l10n.resetCounterMessage),
       actions: [
         TextButton(
-          child: const Text('Não'),
+          child: Text(l10n.cancel),
           onPressed: () {
-            Navigator.of(context).pop(); // Fechar janela
+            context.pop();
           },
         ),
         TextButton(
-          child: const Text('Sim'),
+          child: Text(l10n.confirm),
           onPressed: () {
             onConfirm();
-            Navigator.of(context).pop();
+            context.pop();
           },
         ),
       ],

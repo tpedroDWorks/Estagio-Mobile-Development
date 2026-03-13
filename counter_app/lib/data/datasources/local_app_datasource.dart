@@ -1,6 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-class StorageService {
+class LocalAppDatasource {
   static const String _counterkey = 'counter_value';
   static const String _username = 'username';
 

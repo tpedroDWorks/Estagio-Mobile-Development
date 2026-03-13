@@ -1,9 +1,12 @@
+import 'package:counter_app/core/extensions/context_extensions.dart';
+import 'package:counter_app/core/l10n/app_localizations.dart';
 import 'package:counter_app/presentation/routes/routes.dart';
 import 'package:counter_app/presentation/ui/my_home/bloc/my_home_bloc.dart';
 import 'package:counter_app/presentation/ui/widgets/contador_widget.dart';
 import 'package:counter_app/presentation/ui/widgets/reset_dialogue.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class MyHomeLayout extends StatelessWidget {
   const MyHomeLayout({super.key});
@@ -23,19 +26,28 @@ class MyHomeLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.localizations;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: BlocBuilder<MyHomeBloc, MyHomeState>(
           builder: (context, state) {
             final username = state.username;
-            return Text(username.isEmpty ? 'Counter App' : 'Hey $username');
+            return Text(
+              username.isEmpty
+                  ? l10n.counterAppTitle
+                  : l10n.welcomeMessage(username),
+            );
           },
         ),
         leading: IconButton(
           onPressed: () async {
-            await Navigator.pushNamed(context, Routes.settings);
-            context.read<MyHomeBloc>().add(LoadUsernameMyHomeEvent());
+            final bloc = context.read<MyHomeBloc>();
+            await GoRouter.of(context).pushNamed(Routes.settings);
+            if (context.mounted) {
+              bloc.add(LoadUsernameMyHomeEvent());
+            }
           },
           icon: const Icon(Icons.settings),
         ),
@@ -44,7 +56,7 @@ class MyHomeLayout extends StatelessWidget {
             onPressed: () {
               _resetCounter(context);
             },
-            icon: Icon(Icons.restart_alt),
+            icon: const Icon(Icons.restart_alt),
           ),
         ],
       ),
@@ -54,7 +66,7 @@ class MyHomeLayout extends StatelessWidget {
             ScaffoldMessenger.of(context).clearSnackBars();
             ScaffoldMessenger.of(
               context,
-            ).showSnackBar(const SnackBar(content: Text('Alvo atingido!')));
+            ).showSnackBar(SnackBar(content: Text(l10n.targetReached)));
           }
         },
         child: GestureDetector(
@@ -70,10 +82,10 @@ class MyHomeLayout extends StatelessWidget {
               children: [
                 Expanded(
                   child: Column(
-                    mainAxisAlignment: .center,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text(
-                        'You have pushed the button this many times:',
+                      Text(
+                        l10n.pushedButtonMessage,
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: 5),
@@ -88,25 +100,23 @@ class MyHomeLayout extends StatelessWidget {
                 Expanded(
                   child: Column(
                     children: [
-                      const Text(
-                        'Últimas 5 operações:',
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                      Text(
+                        l10n.lastOperations,
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 5),
                       Expanded(
                         child: BlocBuilder<MyHomeBloc, MyHomeState>(
                           builder: (context, state) {
                             if (state.operacoes.isEmpty) {
-                              return const Center(
-                                child: Text('Sem operações registadas.'),
-                              );
+                              return Center(child: Text(l10n.noOperations));
                             }
                             return ListView(
                               children: state.operacoes
                                   .map(
                                     (op) => ListTile(
                                       title: Text(
-                                        op,
+                                        _translateOperation(op, l10n),
                                         textAlign: TextAlign.center,
                                       ),
                                       dense: true,
@@ -146,5 +156,18 @@ class MyHomeLayout extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  String _translateOperation(String op, AppLocalizations l10n) {
+    switch (op) {
+      case 'increase':
+        return l10n.operationIncrease;
+      case 'decrease':
+        return l10n.operationDecrease;
+      case 'reset':
+        return l10n.operationReset;
+      default:
+        return op;
+    }
   }
 }

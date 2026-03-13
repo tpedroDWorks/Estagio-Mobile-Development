@@ -1,3 +1,4 @@
+import 'package:counter_app/core/extensions/context_extensions.dart';
 import 'package:counter_app/presentation/ui/settings/bloc/settings_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,19 +14,27 @@ class _SettingsLayoutState extends State<SettingsLayout> {
   final _textController = TextEditingController();
 
   @override
+  void dispose() {
+    _textController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final l10n = context.localizations;
+
     return BlocListener<SettingsBloc, SettingsState>(
       listener: (context, state) {},
       child: Scaffold(
-        appBar: AppBar(title: const Text('Settings')),
+        appBar: AppBar(title: Text(l10n.settings)),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
               TextField(
                 controller: _textController,
-                decoration: const InputDecoration(
-                  labelText: 'Nome de utilizador',
+                decoration: InputDecoration(
+                  labelText: l10n.usernameLabel,
                 ),
               ),
               const SizedBox(height: 20),
@@ -35,14 +44,13 @@ class _SettingsLayoutState extends State<SettingsLayout> {
                     SaveUsernameSettingsEvent(_textController.text),
                   );
                 },
-                child: Text('Guardar'),
+                child: Text(l10n.saveButton),
               ),
               ElevatedButton(
                 onPressed: () {
                   context.read<SettingsBloc>().add(ClearAllDataSettingsEvent());
-                  _textController.dispose();
                 },
-                child: const Text('Limpar dados'),
+                child: Text(l10n.clearDataButton),
               ),
             ],
           ),
